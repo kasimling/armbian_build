@@ -68,7 +68,7 @@ function post_family_tweaks__ayn-odin2_enable_services() {
 
 	if [[ "${RELEASE}" == "jammy" ]] || [[ "${RELEASE}" == "noble" ]]; then
 		display_alert "Adding Mesa PPA For Ubuntu ${BOARD}" "warn"
-		do_with_retries 3 chroot_sdcard add-apt-repository ppa:liujianfeng1994/qcom-mainline --yes --no-update
+		do_with_retries 3 chroot_sdcard add-apt-repository ppa:ernstp/mesaaco --yes --no-update
 	fi
 
 	# We need unudhcpd from armbian repo, so enable it
