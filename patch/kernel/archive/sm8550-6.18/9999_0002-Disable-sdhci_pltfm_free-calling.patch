@@ -1,0 +1,35 @@
+From c379c010d514a79f0c29b7565eab1c39246e3e3f Mon Sep 17 00:00:00 2001
+From: Alex Ling <ling_kasim@hotmail.com>
+Date: Sat, 17 Jan 2026 18:00:43 +0800
+Subject: [PATCH] Disable sdhci_pltfm_free calling
+
+Signed-off-by: Alex Ling <ling_kasim@hotmail.com>
+---
+ drivers/mmc/host/sdhci-msm-downstream.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/mmc/host/sdhci-msm-downstream.c b/drivers/mmc/host/sdhci-msm-downstream.c
+index 41fd45fbe..1c44ca8e2 100644
+--- a/drivers/mmc/host/sdhci-msm-downstream.c
++++ b/drivers/mmc/host/sdhci-msm-downstream.c
+@@ -5633,7 +5633,7 @@ static int sdhci_msm_probe(struct platform_device *pdev)
+ 	if (!IS_ERR(msm_host->bus_clk))
+ 		clk_disable_unprepare(msm_host->bus_clk);
+ pltfm_free:
+-	sdhci_pltfm_free(pdev);
++	//sdhci_pltfm_free(pdev);
+ 	return ret;
+ }
+ 
+@@ -5696,7 +5696,7 @@ static void sdhci_msm_remove(struct platform_device *pdev)
+         sdhci_msm_bus_get_and_set_vote(host, 0);
+         sdhci_msm_bus_unregister(&pdev->dev, msm_host);
+     }
+-    sdhci_pltfm_free(pdev);
++    //sdhci_pltfm_free(pdev);
+ }
+ 
+ static __maybe_unused int sdhci_msm_runtime_suspend(struct device *dev)
+-- 
+2.43.0
+
