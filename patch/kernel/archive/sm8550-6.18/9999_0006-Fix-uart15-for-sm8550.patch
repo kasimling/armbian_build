@@ -1,0 +1,26 @@
+From 2d591100a147642e9ae820dcd11b79b4259dbed4 Mon Sep 17 00:00:00 2001
+From: Alex Ling <ling_kasim@hotmail.com>
+Date: Sun, 18 Jan 2026 18:16:04 +0800
+Subject: [PATCH] Fix uart15 for sm8550
+
+Signed-off-by: Alex Ling <ling_kasim@hotmail.com>
+---
+ arch/arm64/boot/dts/qcom/sm8550.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/sm8550.dtsi b/arch/arm64/boot/dts/qcom/sm8550.dtsi
+index 9e743f6e4..61219e5e7 100644
+--- a/arch/arm64/boot/dts/qcom/sm8550.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8550.dtsi
+@@ -1259,7 +1259,7 @@ uart15: serial@89c000 {
+ 				clocks = <&gcc GCC_QUPV3_WRAP2_S7_CLK>;
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&qup_uart15_default>;
+-				interrupts = <GIC_SPI 462 IRQ_TYPE_LEVEL_HIGH>;
++				interrupts = <GIC_SPI 462 IRQ_TYPE_LEVEL_HIGH 0>;
+ 				interconnects = <&clk_virt MASTER_QUP_CORE_2 0 &clk_virt SLAVE_QUP_CORE_2 0>,
+ 						<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_QUP_2 0>;
+ 				interconnect-names = "qup-core", "qup-config";
+-- 
+2.43.0
+
