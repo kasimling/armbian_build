@@ -1,0 +1,57 @@
+From 56f812d180135934ce5f56e4656e3f968542b30c Mon Sep 17 00:00:00 2001
+From: Alex Ling <ling_kasim@hotmail.com>
+Date: Sun, 18 Jan 2026 20:37:39 +0800
+Subject: [PATCH] Fix aw88166 firmware name
+
+Signed-off-by: Alex Ling <ling_kasim@hotmail.com>
+---
+ sound/soc/codecs/aw88166.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/sound/soc/codecs/aw88166.c b/sound/soc/codecs/aw88166.c
+index 28f62b991..93c1eadb6 100644
+--- a/sound/soc/codecs/aw88166.c
++++ b/sound/soc/codecs/aw88166.c
+@@ -1686,19 +1686,27 @@ static int aw88166_dev_init(struct aw88166 *aw88166, struct aw_container *aw_cfg
+ 
+ static int aw88166_request_firmware_file(struct aw88166 *aw88166)
+ {
++	struct aw_device *aw_dev = aw88166->aw_pa;
++	struct device_node *np = aw_dev->dev->of_node;
+ 	const struct firmware *cont = NULL;
++	const char *fw_name;
+ 	int ret;
+ 
+ 	aw88166->aw_pa->fw_status = AW88166_DEV_FW_FAILED;
+ 
+-	ret = request_firmware(&cont, AW88166_ACF_FILE, aw88166->aw_pa->dev);
++	ret = of_property_read_string(np, "firmware-name", &fw_name);
++	if (ret < 0) {
++		fw_name = AW88166_ACF_FILE;
++	}
++
++	ret = request_firmware(&cont, fw_name, aw88166->aw_pa->dev);
+ 	if (ret) {
+-		dev_err(aw88166->aw_pa->dev, "request [%s] failed!\n", AW88166_ACF_FILE);
++		dev_err(aw88166->aw_pa->dev, "request [%s] failed!\n", fw_name);
+ 		return ret;
+ 	}
+ 
+ 	dev_dbg(aw88166->aw_pa->dev, "loaded %s - size: %zu\n",
+-			AW88166_ACF_FILE, cont ? cont->size : 0);
++			fw_name, cont ? cont->size : 0);
+ 
+ 	aw88166->aw_cfg = devm_kzalloc(aw88166->aw_pa->dev,
+ 			struct_size(aw88166->aw_cfg, data, cont->size), GFP_KERNEL);
+@@ -1712,7 +1720,7 @@ static int aw88166_request_firmware_file(struct aw88166 *aw88166)
+ 
+ 	ret = aw88395_dev_load_acf_check(aw88166->aw_pa, aw88166->aw_cfg);
+ 	if (ret) {
+-		dev_err(aw88166->aw_pa->dev, "load [%s] failed!\n", AW88166_ACF_FILE);
++		dev_err(aw88166->aw_pa->dev, "load [%s] failed!\n", fw_name);
+ 		return ret;
+ 	}
+ 
+-- 
+2.43.0
+

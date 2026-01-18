@@ -919,6 +919,7 @@ reserved-memory {
 		reset-gpios = <&tlmm 103 GPIO_ACTIVE_HIGH>;
 		awinic,audio-channel = <0>;
 		awinic,sync-flag;
+		sound-name-prefix = "SPK_L";
 	};
 
 	spk_amp_r: spk_amp_r@35 {
@@ -928,6 +929,7 @@ reserved-memory {
 		reset-gpios = <&tlmm 100 GPIO_ACTIVE_HIGH>;
 		awinic,audio-channel = <1>;
 		awinic,sync-flag;
+		sound-name-prefix = "SPK_R";
 	};
 };
 
